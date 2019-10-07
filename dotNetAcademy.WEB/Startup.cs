@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotNetAcademy.DAL.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,7 @@ namespace dotNetAcademy.WEB
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDotNetAcademyDbContext(Configuration.GetConnectionString("FullStackDbString"));
+            
 
             services.Configure<CookiePolicyOptions>(options =>
             {

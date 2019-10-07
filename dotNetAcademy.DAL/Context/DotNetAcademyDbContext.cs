@@ -11,15 +11,16 @@ namespace dotNetAcademy.DAL.Context
 
         public DotNetAcademyDbContext(DbContextOptions options) : base(options)
         {
+            
         }
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Participant> Participants { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //   // optionsBuilder.UseLazyLoadingProxies();
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
     }
 
    
