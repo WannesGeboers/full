@@ -26,8 +26,12 @@ namespace dotNetAcademy.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //laden dbcontext
             services.AddDotNetAcademyDbContext(Configuration.GetConnectionString("FullStackDbString"));
-            
+            //laden repositories
+            services.AddRepositories();
+
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {

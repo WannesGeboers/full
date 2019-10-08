@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dotNetAcademy.DAL.Context;
 
 namespace dotNetAcademy.DAL.Migrations
 {
     [DbContext(typeof(DotNetAcademyDbContext))]
-    partial class DotNetAcademyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191008063144_customerAddressChanged")]
+    partial class customerAddressChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
