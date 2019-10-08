@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using AutoMapper;
 using dotNetAcademy.BLL.DTO;
+using dotNetAcademy.DAL.Entities;
 using dotNetAcademy.DAL.Repositories.Interfaces;
 
-namespace dotNetAcademy.BLL.Services.Customer
+namespace dotNetAcademy.BLL.Services.CustomerService
 {
     public class CustomerService:ICustomerService
     {
@@ -30,6 +31,22 @@ namespace dotNetAcademy.BLL.Services.Customer
         {
             var customers = _repository.GetAll().ToList();
             return _mapper.Map<IEnumerable<CustomerDTO>>(customers);
+        }
+
+        public void Add(CustomerDTO customer)
+        {
+            var p = _mapper.Map<Customer>(customer);
+            _repository.Insert(p);
+        }
+
+        public void Delete(int id)
+        {
+            _repository.Delete(id);
+        }
+
+        public void Save()
+        {
+            _repository.Save();
         }
     }
 }

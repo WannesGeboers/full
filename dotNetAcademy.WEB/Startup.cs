@@ -45,6 +45,7 @@ namespace dotNetAcademy.WEB
 
             //BLL 
             services.AddAutoMapper();
+            services.AddBllServices();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
