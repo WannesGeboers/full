@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotNetAcademy.BLL.Extensions;
 using dotNetAcademy.DAL.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,8 @@ namespace dotNetAcademy.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //DAL
             //laden dbcontext
             services.AddDotNetAcademyDbContext(Configuration.GetConnectionString("FullStackDbString"));
             //laden repositories
@@ -39,6 +42,9 @@ namespace dotNetAcademy.WEB
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            //BLL 
+            services.AddAutoMapper();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
