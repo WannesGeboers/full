@@ -13,10 +13,10 @@ namespace dotNetAcademy.DAL.InitialData
         public static void SeedDb(DotNetAcademyDbContext context)
         {
             context.Customers.AddRange(
-                    new Customer { Name = "2Commit",StreetAndNumber = "Weg 1",City = "Edegem", Email = "info@2commit.be", MaxParticants = 10 },
-                    new Customer { Name = "BitConsult", StreetAndNumber = "Weg 2", City = "Heultje", Email = "info@bitconsult.be", MaxParticants = 10 },
-                    new Customer { Name = "IT4IT", StreetAndNumber = "Weg 3", City = "Heultje", Email = "info@it4it.be", MaxParticants = 10 },
-                    new Customer { Name = "Cegeka", StreetAndNumber = "Weg 4", City = "Geel", Email = "info@cegeka.be", MaxParticants = 10 }
+                    new Customer { Name = "2Commit",StreetAndNumber = "Weg 1",City = "Edegem", Email = "info@2commit.be", MaxParticipants = 10 },
+                    new Customer { Name = "BitConsult", StreetAndNumber = "Weg 2", City = "Heultje", Email = "info@bitconsult.be", MaxParticipants = 10 },
+                    new Customer { Name = "IT4IT", StreetAndNumber = "Weg 3", City = "Heultje", Email = "info@it4it.be", MaxParticipants = 10 },
+                    new Customer { Name = "Cegeka", StreetAndNumber = "Weg 4", City = "Geel", Email = "info@cegeka.be", MaxParticipants = 10 }
                 );
           
                 context.Participants.AddRange(

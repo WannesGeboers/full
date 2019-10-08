@@ -10,6 +10,7 @@ namespace dotNetAcademy.DAL.Repositories.Interfaces
         T GetById(int id);
         void Insert(T obj);
         void Delete(int id);
+        void Update(int id,T obj);
         void Save();
     }
 }

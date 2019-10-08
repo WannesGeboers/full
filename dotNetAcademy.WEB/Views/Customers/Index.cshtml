@@ -1,0 +1,37 @@
+﻿@model dotNetAcademy.WEB.ViewModels.Customer.AllCustomersViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>All Customers</h3>
+<div><a asp-controller="Customers" asp-action="Create"><i class="fas fa-plus"></i>New Customer</a></div>
+
+
+    <ul class="list-group">
+        @foreach (var c in Model.Customers)
+        {
+        <li class="list-group-item"> 
+            <div class="row">
+                <div class="col-2">
+                    <a asp-controller="Customers" asp-action="Delete" asp-route-id="@c.Id"><i class="fas fa-trash"></i></a>
+                    <a asp-controller="Customers" asp-action="Edit" asp-route-id="@c.Id"><i class="fas fa-pencil-alt"></i></a>
+                </div>
+                <div class="col-6">
+                    <div>
+                        <a asp-controller="Customers" asp-action="Edit" asp-route-id="@c.Id">
+                            <div class="card-content">
+                                <p>@c.Name</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                @*@if (User.IsInRole("Admin"))
+        {*@
+
+                @*}*@
+            </div>
+        </li>
+
+        }
+    </ul>

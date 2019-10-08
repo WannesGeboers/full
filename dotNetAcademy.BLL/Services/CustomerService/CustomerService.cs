@@ -44,6 +44,11 @@ namespace dotNetAcademy.BLL.Services.CustomerService
             _repository.Delete(id);
         }
 
+        public void Update(int id,CustomerDTO customer)
+        {
+            var c = _mapper.Map<Customer>(customer);
+            _repository.Update(id,c);
+        }
         public void Save()
         {
             _repository.Save();

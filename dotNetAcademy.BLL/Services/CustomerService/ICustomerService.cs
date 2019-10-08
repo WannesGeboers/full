@@ -13,6 +13,7 @@ namespace dotNetAcademy.BLL.Services.CustomerService
 
         void Add(CustomerDTO customer);
         void Delete(int id);
+        void Update(int id,CustomerDTO customer);
 
         void Save();
     }

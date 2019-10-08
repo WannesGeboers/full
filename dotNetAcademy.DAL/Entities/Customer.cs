@@ -11,7 +11,7 @@ namespace dotNetAcademy.DAL.Entities
         public string StreetAndNumber { get; set; }
         public string City { get; set; }
         public string Email { get; set; }
-        public int MaxParticants { get; set; }
+        public int MaxParticipants { get; set; }
 
         //navigation properties
         public virtual List<Participant> Participants { get; set; }

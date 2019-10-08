@@ -35,6 +35,11 @@ namespace dotNetAcademy.WEB
             services.AddRepositories();
 
 
+            //BLL 
+            services.AddAutoMapper();
+            services.AddBllServices();
+
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -42,11 +47,6 @@ namespace dotNetAcademy.WEB
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            //BLL 
-            services.AddAutoMapper();
-            services.AddBllServices();
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -1,0 +1,44 @@
+﻿@model dotNetAcademy.WEB.ViewModels.Participant.AllParticipantsViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Participants for @Model.CustomerName:</h3>
+<div><a asp-controller="Participants" asp-action="Create"><i class="fas fa-plus"></i>New Participant</a></div>
+
+
+<ul class="list-group">
+    @foreach (var p in Model.Participants)
+    {
+        <li class="list-group-item"> 
+            <div class="row">
+                <div class="col-2">
+                    <a asp-controller="Participants" asp-action="Delete" asp-route-id="@p.Id"><i class="fas fa-trash"></i></a>
+                    <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id"><i class="fas fa-pencil-alt"></i></a>
+                </div>
+                <div class="col-6">
+                    <div>
+                        <div class="row">
+                            <div class="col-8">
+                                <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id">
+                                    @p.FirstName @p.LastName
+                                </a>
+                            </div>
+                            <a asp-controller="Participants" asp-action="IndexFromCustomer" asp-route-id="@p.Customer.Id">
+
+                                <div class="col-2">@p.Customer.Name</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @*@if (User.IsInRole("Admin"))
+        {*@
+
+                @*}*@
+            </div>
+        </li>
+
+    }
+</ul>
+
