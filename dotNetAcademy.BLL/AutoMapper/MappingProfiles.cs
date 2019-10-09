@@ -11,8 +11,8 @@ namespace dotNetAcademy.BLL.AutoMapper
     {
         public MappingProfiles()
         {
-        
         CreateMap<Customer,CustomerDTO>()
+            //.ForMember(x=>x.Participants,opt => opt.Ignore())
         .ReverseMap();
 
         CreateMap<Participant, ParticipantDTO>()

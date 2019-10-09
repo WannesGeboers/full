@@ -29,7 +29,7 @@ namespace dotNetAcademy.BLL.Services.ParticipantService
 
         public IEnumerable<ParticipantDTO> GetAll()
         {
-            var allParticipants = _repository.GetAll().ToList();
+            var allParticipants = _repository.GetAll().OrderBy(x=>x.Customer.Name);
             return _mapper.Map<IEnumerable<ParticipantDTO>>(allParticipants);
         }
 
@@ -44,6 +44,12 @@ namespace dotNetAcademy.BLL.Services.ParticipantService
             _repository.Delete(id);
         }
 
+        public void Update(int id, ParticipantDTO participant)
+        {
+            var entity = _repository.GetById(id);
+            _mapper.Map(participant, entity);
+            Save();
+        }
         public void Save()
         {
             _repository.Save();

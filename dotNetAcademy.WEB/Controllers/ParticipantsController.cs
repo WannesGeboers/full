@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using dotNetAcademy.BLL.DTO;
 using dotNetAcademy.BLL.Services.CustomerService;
 using dotNetAcademy.BLL.Services.ParticipantService;
 using dotNetAcademy.WEB.ViewModels.Participant;
@@ -37,8 +38,11 @@ namespace dotNetAcademy.WEB.Controllers
         {
             var viewmodel = new AllParticipantsViewModel();
             //todo: erase 1 database-call with parameter passing in views
-            viewmodel.CustomerName = _customerService.GetById(id).Name;
-            viewmodel.Participants = _participantService.GetAll().Where(x => x.Customer.Id == id);
+            viewmodel.Customer = _customerService.GetById(id);
+            viewmodel.Participants = _participantService.GetAll()
+                .Where(x => x.Customer.Id == id)
+                .OrderBy(x=>x.StartDate);
+
             return View(viewmodel);
         }
 
@@ -61,6 +65,29 @@ namespace dotNetAcademy.WEB.Controllers
             return View();
         }
 
+        // POST: Participants/CreateForCustomer
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateForCustomer(int id,[Bind("FirstName,LastName,Email,StartDate,EndDate")] ParticipantDTO p)
+        {
+            try
+            {
+                p.Customer = _customerService.GetById(id);
+                if (ModelState.IsValid)
+                {
+                    _participantService.Add(p);
+                    _participantService.Save();
+                    return RedirectToAction("IndexFromCustomer","Participants",new {@id =id});
+                }
+
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         // POST: Participants/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,19 +108,28 @@ namespace dotNetAcademy.WEB.Controllers
         // GET: Participants/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var participant = _participantService.GetById(id);
+            if (participant == null)
+            {
+                return NotFound();
+            }
+            return View(participant);
         }
 
         // POST: Participants/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, [Bind("Id,FirstName,LastName,Email,StartDate,EndDate")] ParticipantDTO p)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    _participantService.Update(id, p);
+                    _participantService.Save();
+                }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("IndexFromCustomer", "Participants", new { @id = id });
             }
             catch
             {
@@ -104,24 +140,26 @@ namespace dotNetAcademy.WEB.Controllers
         // GET: Participants/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            _participantService.Delete(id);
+            _participantService.Save();
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: Participants/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        //// POST: Participants/Delete/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }

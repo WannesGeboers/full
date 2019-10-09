@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Participants for @Model.CustomerName:</h3>
-<div><a asp-controller="Participants" asp-action="Create"><i class="fas fa-plus"></i>New Participant</a></div>
+<h3>Participants for @Model.Customer.Name</h3>
+<div><a asp-controller="Participants" asp-action="CreateForCustomer" asp-route-id="@Model.Customer.Id"><i class="fas fa-plus"></i>New Participant</a></div>
 
 
 <ul class="list-group">
@@ -20,15 +20,14 @@
                 <div class="col-6">
                     <div>
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-6">
                                 <a asp-controller="Participants" asp-action="Edit" asp-route-id="@p.Id">
                                     @p.FirstName @p.LastName
                                 </a>
                             </div>
-                            <a asp-controller="Participants" asp-action="IndexFromCustomer" asp-route-id="@p.Customer.Id">
+                            <div class="col-3">@p.StartDate</div>
+                            <div class="col-3">@p.EndDate</div>
 
-                                <div class="col-2">@p.Customer.Name</div>
-                            </a>
                         </div>
                     </div>
                 </div>

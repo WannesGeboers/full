@@ -13,6 +13,7 @@ namespace dotNetAcademy.BLL.Services.ParticipantService
 
         void Add(ParticipantDTO participant);
         void Delete(int id);
+        void Update(int id, ParticipantDTO participant);
 
         void Save();
 

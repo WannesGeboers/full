@@ -8,7 +8,7 @@ namespace dotNetAcademy.WEB.ViewModels.Participant
 {
     public class AllParticipantsViewModel
     {
-        public string CustomerName { get; set; }
+        public CustomerDTO Customer { get; set; }
         public IEnumerable<ParticipantDTO> Participants { get; set; }
     }
 }

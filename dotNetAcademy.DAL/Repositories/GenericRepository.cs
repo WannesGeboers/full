@@ -42,20 +42,7 @@ namespace dotNetAcademy.DAL.Repositories
                 table.Remove(res);
             }
         }
-
-        public void Update(int id,T obj)
-        {
-            var res = table.Find(id);
-            //TODO: check for changes
-
-            if (res != null)
-            {
-                _context.Set<T>().Update(obj);
-                //_context.Entry(res).State = EntityState.Modified;
-            }
-
-            
-        }
+  
 
         public void Save()
         {

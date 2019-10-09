@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>All Customers</h3>
-<div><a asp-controller="Participants" asp-action="Create"><i class="fas fa-plus"></i>New Participant</a></div>
+<h3>All Participants (@Model.Participants.Count())</h3>
+@*<div><a asp-controller="Participants" asp-action="Create"><i class="fas fa-plus"></i>New Participant</a></div>*@
 
 
     <ul class="list-group">
