@@ -8,6 +8,7 @@ namespace dotNetAcademy.WEB.ViewModels.Customer
 {
     public class AllCustomersViewModel
     {
+        public int Members;
         public IEnumerable<CustomerDTO> Customers { get; set; }
 
     }

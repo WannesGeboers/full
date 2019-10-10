@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using dotNetAcademy.BLL.DTO;
+using dotNetAcademy.BLL.Rules;
 using dotNetAcademy.BLL.Services.CustomerService;
 using dotNetAcademy.BLL.Services.ParticipantService;
+using dotNetAcademy.WEB.ViewModels.Error;
 using dotNetAcademy.WEB.ViewModels.Participant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,20 +36,20 @@ namespace dotNetAcademy.WEB.Controllers
             return View(viewmodel);
         }
 
-        public ActionResult IndexFromCustomer(int id)
+        public ActionResult IndexFromCustomer(string id)
         {
             var viewmodel = new AllParticipantsViewModel();
             //todo: erase 1 database-call with parameter passing in views
             viewmodel.Customer = _customerService.GetById(id);
             viewmodel.Participants = _participantService.GetAll()
-                .Where(x => x.Customer.Id == id)
+                .Where(x => x.Customer.Id==id)
                 .OrderBy(x=>x.StartDate);
 
             return View(viewmodel);
         }
 
         // GET: Participants/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
             return View();
         }
@@ -59,16 +61,28 @@ namespace dotNetAcademy.WEB.Controllers
         }
 
         // GET: Participants/Create
-        public ActionResult CreateForCustomer(int id)
+        public ActionResult CreateForCustomer(string id)
         {
-            //todo:add directly to customer list
-            return View();
+            var customer = _customerService.GetById(id);
+
+            if (!MaxAmount.IsReached(customer.MaxParticipants, customer.Participants.Count()))
+            {
+            var model = new ParticipantDTO();
+            model.Customer = _customerService.GetById(id);
+            return View(model);
+            }
+            else
+            {
+                var viewmodel = new FoutMeldingViewModel();
+                viewmodel.Fout = "U hebt het max aantal deelnemers bereikt.";
+                return View(viewmodel);
+            }
         }
 
         // POST: Participants/CreateForCustomer
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateForCustomer(int id,[Bind("FirstName,LastName,Email,StartDate,EndDate")] ParticipantDTO p)
+        public ActionResult CreateForCustomer(string id,[Bind("FirstName,LastName,Email,StartDate,EndDate")] ParticipantDTO p)
         {
             try
             {
@@ -106,7 +120,7 @@ namespace dotNetAcademy.WEB.Controllers
         }
 
         // GET: Participants/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             var participant = _participantService.GetById(id);
             if (participant == null)
@@ -119,26 +133,27 @@ namespace dotNetAcademy.WEB.Controllers
         // POST: Participants/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind("Id,FirstName,LastName,Email,StartDate,EndDate")] ParticipantDTO p)
+        public ActionResult Edit(string id, [Bind("Id,FirstName,LastName,Email,StartDate,EndDate,CustomerId")] ParticipantDTO p)
         {
             try
             {
+                //p.Customer = _customerService.GetById(p.CustomerId);
                 if (ModelState.IsValid)
                 {
                     _participantService.Update(id, p);
                     _participantService.Save();
                 }
-
+                
                 return RedirectToAction("IndexFromCustomer", "Participants", new { @id = id });
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
         }
 
         // GET: Participants/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             _participantService.Delete(id);
             _participantService.Save();

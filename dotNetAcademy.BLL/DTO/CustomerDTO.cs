@@ -6,7 +6,7 @@ namespace dotNetAcademy.BLL.DTO
 {
     public class CustomerDTO
     {
-        public int Id { get; set; }
+       public string Id { get; set; }
         public string Name { get; set; }
         public string StreetAndNumber { get; set; }
         public string City { get; set; }

@@ -20,7 +20,7 @@ namespace dotNetAcademy.BLL.Services.ParticipantService
             _mapper = mapper;
             _repository = repository;
         }
-        public ParticipantDTO GetById(int id)
+        public ParticipantDTO GetById(string id)
         {
             var product = _repository.GetById(id);
 
@@ -39,16 +39,16 @@ namespace dotNetAcademy.BLL.Services.ParticipantService
             _repository.Insert(p);
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             _repository.Delete(id);
         }
 
-        public void Update(int id, ParticipantDTO participant)
+        public void Update(string id, ParticipantDTO participant)
         {
             var entity = _repository.GetById(id);
             _mapper.Map(participant, entity);
-            Save();
+            
         }
         public void Save()
         {

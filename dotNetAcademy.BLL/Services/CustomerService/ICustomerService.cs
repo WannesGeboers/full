@@ -8,12 +8,12 @@ namespace dotNetAcademy.BLL.Services.CustomerService
     public interface ICustomerService
     {
 
-        CustomerDTO GetById(int id);
+        CustomerDTO GetById(string id);
         IEnumerable<CustomerDTO> GetAll();
 
         void Add(CustomerDTO customer);
-        void Delete(int id);
-        void Update(int id,CustomerDTO customer);
+        void Delete(string id);
+        void Update(string id,CustomerDTO customer);
 
         void Save();
     }

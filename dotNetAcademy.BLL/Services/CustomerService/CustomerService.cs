@@ -21,7 +21,7 @@ namespace dotNetAcademy.BLL.Services.CustomerService
             _repository = repository;
         }
 
-        public CustomerDTO GetById(int id)
+        public CustomerDTO GetById(string id)
         {
             var customer = _repository.GetById(id);
             return _mapper.Map<CustomerDTO>(customer);
@@ -39,12 +39,12 @@ namespace dotNetAcademy.BLL.Services.CustomerService
             _repository.Insert(p);
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             _repository.Delete(id);
         }
 
-        public void Update(int id,CustomerDTO customer)
+        public void Update(string id,CustomerDTO customer)
         {
             var entity = _repository.GetById(id);
             _mapper.Map(customer, entity);

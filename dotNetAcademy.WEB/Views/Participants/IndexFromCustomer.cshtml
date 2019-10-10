@@ -4,7 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Participants for @Model.Customer.Name</h3>
+<h3>@Model.Customer.Name</h3>
+<div class="row">
+    <div class="col-6">
+        <p>Participants: @Model.Participants.Count() / @Model.Customer.MaxParticipants</p>
+    </div>
+    <div class="col-6">
+        <p>Email: @Model.Customer.Email <br/>
+        Street: @Model.Customer.StreetAndNumber <br />
+        City: @Model.Customer.City
+    </div>
+</div>
+
 <div><a asp-controller="Participants" asp-action="CreateForCustomer" asp-route-id="@Model.Customer.Id"><i class="fas fa-plus"></i>New Participant</a></div>
 
 

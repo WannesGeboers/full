@@ -8,12 +8,12 @@ namespace dotNetAcademy.BLL.Services.ParticipantService
     public interface IParticipantService
     {
 
-        ParticipantDTO GetById(int id);
+        ParticipantDTO GetById(string id);
         IEnumerable<ParticipantDTO> GetAll();
 
         void Add(ParticipantDTO participant);
-        void Delete(int id);
-        void Update(int id, ParticipantDTO participant);
+        void Delete(string id);
+        void Update(string id, ParticipantDTO participant);
 
         void Save();
 

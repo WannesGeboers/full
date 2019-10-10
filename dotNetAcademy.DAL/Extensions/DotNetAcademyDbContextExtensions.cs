@@ -9,6 +9,7 @@ using dotNetAcademy.DAL.Entities;
 using dotNetAcademy.DAL.Repositories;
 using dotNetAcademy.DAL.Repositories.Interfaces;
 
+
 namespace dotNetAcademy.DAL.Extensions
 {
     public static class DotNetAcademyDbContextExtension
@@ -28,5 +29,34 @@ namespace dotNetAcademy.DAL.Extensions
             services.AddTransient<IGenericRepository<Participant>, GenericRepository<Participant>>();
             return services;
         }
+
+        //public static IServiceCollection AddIdentityExtension(this IServiceCollection services)
+        //{
+        //    //identity
+        //    ////users
+        //    services.AddDefaultIdentity<Customer>()
+        //        .AddRoles<IdentityRole>()
+        //        .AddEntityFrameworkStores<DotNetAcademyDbContext>();
+
+
+        //    // Password settings + lockout settings + user settings
+        //    //source: https://stackoverflow.com/questions/27831597/how-do-i-define-the-password-rules-for-identity-in-asp-net-5-mvc-6-vnext
+        //    services.Configure<IdentityOptions>(options =>
+        //    {
+        //        options.Password.RequireUppercase = false;
+        //        options.Password.RequireLowercase = false;
+        //        options.Password.RequireDigit = false;
+        //        options.Password.RequireNonAlphanumeric = false;
+        //        options.Password.RequiredLength = 5;
+        //        options.Password.RequiredUniqueChars = 0;
+
+        //        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        //        options.Lockout.MaxFailedAccessAttempts = 3;
+        //        options.Lockout.AllowedForNewUsers = true;
+
+        //        options.User.RequireUniqueEmail = true;
+        //    });
+        //    return services;
+        //}
     }
 }

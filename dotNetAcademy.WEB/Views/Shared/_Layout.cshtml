@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -33,7 +34,16 @@
  
     <nav>
         <div class="navbar center navbar-light bg-light">
-            <div class="navbar-brand"><img style="height: 2em;" src="content/img/icon.PNG" alt="logo"/>DotNetAcademy</div>
+            <div class="navbar-brand"><img style="height: 2em;" src="content/img/icon.PNG" alt="logo" />DotNetAcademy</div>
+            @if (User.IsInRole("administrator"))
+            {
+                <div>Admin-role</div>
+            }
+            @if (User.IsInRole("customer"))
+            {
+                <div>Customer-role</div>
+            }
+            <partial name="_LoginPartial" />
         </div>
     </nav>
 
@@ -48,9 +58,13 @@
                 <ul class="list-unstyled components">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Participants" asp-action="Index">Participants</a></li>
-                    <li><a asp-area="" asp-controller="Customers" asp-action="Index">Customer</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Settings</a></li>
+                    
+                        <li><a asp-area="" asp-controller="Customers" asp-action="Index">Customer</a></li>
+                       
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Settings</a></li>
+                        
                 </ul>
+
 
             </nav>
         </div>

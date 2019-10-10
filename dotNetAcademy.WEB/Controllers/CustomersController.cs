@@ -4,10 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using dotNetAcademy.BLL.DTO;
+using dotNetAcademy.BLL.Rules;
 using dotNetAcademy.BLL.Services.CustomerService;
 using dotNetAcademy.BLL.Services.ParticipantService;
+using dotNetAcademy.WEB.Models;
 using dotNetAcademy.WEB.ViewModels.Customer;
+using dotNetAcademy.WEB.ViewModels.Error;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration;
 
@@ -18,12 +23,14 @@ namespace dotNetAcademy.WEB.Controllers
         private readonly ICustomerService _customerService;
         private readonly IParticipantService _participantService;
         private readonly IMapper _mapper;
+       // private readonly UserManager<CustomerDTO> _userManager;
 
-        public CustomersController(ICustomerService customerService,IParticipantService participantService,IMapper mapper)
+        public CustomersController(ICustomerService customerService,IParticipantService participantService,IMapper mapper/*, UserManager<CustomerDTO> userManager*/)
         {
             _mapper = mapper;
             _customerService = customerService;
             _participantService = participantService;
+            //_userManager = userManager;
         }
 
         // GET: Customers
@@ -31,11 +38,12 @@ namespace dotNetAcademy.WEB.Controllers
         {
             var viewmodel = new AllCustomersViewModel();
             viewmodel.Customers = _customerService.GetAll();
+            viewmodel.Members = viewmodel.Customers.Sum(x=>x.MaxParticipants);
             return View(viewmodel);
         }
 
         // GET: Customers/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             return View();
         }
@@ -43,7 +51,21 @@ namespace dotNetAcademy.WEB.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-            return View();
+
+            var participants = _customerService.GetAll().Sum(x => x.MaxParticipants);
+            if (MaxAmount.IsReached(MaxAmount.MaxParticipantsInSystem,participants))
+            {
+                return View();
+            }
+            else
+            {
+                var viewmodel = new FoutMeldingViewModel
+                {
+                    Fout = "too many participants"
+                };
+                return RedirectToAction(nameof(Error));
+            }
+           
         }
 
         // POST: Customers/Create
@@ -54,6 +76,7 @@ namespace dotNetAcademy.WEB.Controllers
             if (ModelState.IsValid)
             {
                 _customerService.Add(c);
+                //_userManager.AddToRoleAsync(c, "Customer");
                 _customerService.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -62,7 +85,7 @@ namespace dotNetAcademy.WEB.Controllers
         }
 
         // GET: Customers/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             var customer = _customerService.GetById(id);
             if (customer == null)
@@ -81,7 +104,6 @@ namespace dotNetAcademy.WEB.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //TODO:check if changes are made correctly
                     _customerService.Update(c.Id,c);
                     _customerService.Save();
                 }
@@ -95,11 +117,24 @@ namespace dotNetAcademy.WEB.Controllers
         }
 
         // GET: Customers/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
+            //delete related data
+            var participants = _participantService.GetAll().Where(x => x.CustomerId == id);
+            foreach (var item in participants)
+            {
+                _participantService.Delete(item.Id);
+            }
             _customerService.Delete(id);
             _customerService.Save();
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Error(string message)
+        {
+            var viewmodel = new FoutMeldingViewModel();
+            viewmodel.Fout = message;
+            return View(viewmodel);
         }
     }
 }

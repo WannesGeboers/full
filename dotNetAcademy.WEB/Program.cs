@@ -24,11 +24,11 @@ namespace dotNetAcademy.WEB
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<DotNetAcademyDbContext>();
-                    if (!context.Customers.Any())
-                    {
-                        DataInitializer.SeedDb(context);
-                    }
+                    //var context = services.GetRequiredService<DotNetAcademyDbContext>();
+                    //if (!context.Customers.Any())
+                    //{
+                    //    DataInitializer.SeedDb(context);
+                    //}
                 }
                 catch (Exception e)
                 {

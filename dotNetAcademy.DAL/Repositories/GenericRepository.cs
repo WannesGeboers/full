@@ -24,7 +24,7 @@ namespace dotNetAcademy.DAL.Repositories
             return table.AsEnumerable();
         }
 
-        public T GetById(int id)
+        public T GetById(string id)
         {
             return table.Find(id);
         }
@@ -34,7 +34,7 @@ namespace dotNetAcademy.DAL.Repositories
             table.Add(obj);
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var res = table.Find(id);
             if (res != null)

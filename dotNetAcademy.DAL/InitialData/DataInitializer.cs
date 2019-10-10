@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using dotNetAcademy.DAL.Context;
 using dotNetAcademy.DAL.Entities;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace dotNetAcademy.DAL.InitialData
@@ -25,10 +26,18 @@ namespace dotNetAcademy.DAL.InitialData
                                  new Participant { FirstName = "Jesse", LastName = "Viskens", Email = "info@jesse.be", StartDate = new DateTime(2019, 09, 01), EndDate = new DateTime(2019, 11, 30) },
                                  new Participant { FirstName = "Yari", LastName = "Matthe", Email = "info@yari.be", StartDate = new DateTime(2019, 09, 15), EndDate = new DateTime(2019, 11, 25) }
                 );
-
+           
+      
                 var x = context.Participants.First();
 
+                
 
+
+        }
+
+        private static void SeedRoles()
+        {
+            
         }
 
     }

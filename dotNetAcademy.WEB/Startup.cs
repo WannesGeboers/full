@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotNetAcademy.BLL.Extensions;
+using dotNetAcademy.DAL.Context;
+using dotNetAcademy.DAL.Entities;
 using dotNetAcademy.DAL.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 
 namespace dotNetAcademy.WEB
 {
@@ -31,6 +35,8 @@ namespace dotNetAcademy.WEB
             //DAL
             //laden dbcontext
             services.AddDotNetAcademyDbContext(Configuration.GetConnectionString("FullStackDbString"));
+
+
             //laden repositories
             services.AddRepositories();
 
@@ -38,6 +44,31 @@ namespace dotNetAcademy.WEB
             //BLL 
             services.AddAutoMapper();
             services.AddBllServices();
+
+            //identity
+            ////users
+            services.AddDefaultIdentity<Customer>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DotNetAcademyDbContext>();
+
+
+            // Password settings + lockout settings + user settings
+            //source: https://stackoverflow.com/questions/27831597/how-do-i-define-the-password-rules-for-identity-in-asp-net-5-mvc-6-vnext
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequiredUniqueChars = 0;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.AllowedForNewUsers = true;
+
+                options.User.RequireUniqueEmail = true;
+            });
 
 
 
@@ -69,12 +100,17 @@ namespace dotNetAcademy.WEB
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseAuthentication();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            
         }
+
+
     }
 }
