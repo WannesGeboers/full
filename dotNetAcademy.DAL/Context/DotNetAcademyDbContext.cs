@@ -18,6 +18,7 @@ namespace dotNetAcademy.DAL.Context
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Participant> Participants { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

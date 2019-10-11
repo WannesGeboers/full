@@ -41,22 +41,6 @@ namespace dotNetAcademy.DAL.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "f6aee173-e7fb-43a2-89ff-9c95416a85d5",
-                            ConcurrencyStamp = "b183430a-338a-4352-a25c-2dc1564d9d29",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "dd621420-78ac-4031-9696-8ef275943ced",
-                            ConcurrencyStamp = "8958a06b-ee65-45ab-ade3-9a4aa7251cf0",
-                            Name = "Customer",
-                            NormalizedName = "CUSTOMER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -210,10 +194,10 @@ namespace dotNetAcademy.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "11cac6fb-81fe-45d3-854d-9ba4a66f19cb",
+                            Id = "e7969b7b-b18e-4258-ac98-f8297aa55811",
                             AccessFailedCount = 0,
                             City = "Westerlo",
-                            ConcurrencyStamp = "e673f2a0-b8e0-4be3-b621-cd32eea8907d",
+                            ConcurrencyStamp = "e3398cd4-fecc-4820-900b-ecce968f0776",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             MaxParticipants = 10,
@@ -227,7 +211,7 @@ namespace dotNetAcademy.DAL.Migrations
                             Id = "df39664c-5a15-4063-900d-7a67e09c281e",
                             AccessFailedCount = 0,
                             City = "Westerlo",
-                            ConcurrencyStamp = "edd0a456-de33-48bf-8284-1c533f399076",
+                            ConcurrencyStamp = "2981ed37-11d0-4f2c-ad7e-4692af006603",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             MaxParticipants = 10,
@@ -241,7 +225,7 @@ namespace dotNetAcademy.DAL.Migrations
                             Id = "rf39664c-5a15-4063-900d-7a67e09c281d",
                             AccessFailedCount = 0,
                             City = "Edegem",
-                            ConcurrencyStamp = "2067bd6d-749a-4b58-8ddc-49680ebbf6d0",
+                            ConcurrencyStamp = "3f0db938-ac63-44e9-bbf1-bc0d4d25170f",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             MaxParticipants = 10,
@@ -255,7 +239,7 @@ namespace dotNetAcademy.DAL.Migrations
                             Id = "df39664c-5a15-4063-900d-7a67e09c281d",
                             AccessFailedCount = 0,
                             City = "Westerlo",
-                            ConcurrencyStamp = "17f723f8-a23f-4995-8fb8-ec7fde1048c7",
+                            ConcurrencyStamp = "fb87eaff-5746-46ea-b569-dc77100e87ab",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             MaxParticipants = 10,

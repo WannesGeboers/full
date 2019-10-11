@@ -47,8 +47,11 @@ namespace dotNetAcademy.BLL.Services.ParticipantService
         public void Update(string id, ParticipantDTO participant)
         {
             var entity = _repository.GetById(id);
-            _mapper.Map(participant, entity);
-            
+            //_mapper.Map(participant, entity);
+            entity.FirstName = participant.FirstName;
+            entity.LastName = participant.LastName;
+            entity.StartDate = participant.StartDate;
+
         }
         public void Save()
         {

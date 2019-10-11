@@ -18,11 +18,6 @@ namespace dotNetAcademy.BLL.AutoMapper
         CreateMap<Participant, ParticipantDTO>()
            .ReverseMap();
 
-        CreateMap<Customer, CustomerNoChildsDTO>()
-            .ReverseMap();
-
-        CreateMap<Participant, FlatParticipantDTO>()
-            .ReverseMap();
         }
 
     }

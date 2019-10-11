@@ -152,7 +152,7 @@ namespace dotNetAcademy.WEB.Controllers
                     _participantService.Save();
                 }
                 
-                return RedirectToAction("IndexFromCustomer", "Participants", new { @id = id });
+                return RedirectToAction("IndexFromCustomer", "Participants", new { @id = p.CustomerId });
             }
             catch(Exception ex)
             {
