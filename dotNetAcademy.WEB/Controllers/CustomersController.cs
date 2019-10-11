@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Castle.Core.Internal;
 using dotNetAcademy.BLL.DTO;
 using dotNetAcademy.BLL.Rules;
 using dotNetAcademy.BLL.Services.CustomerService;
@@ -23,22 +25,44 @@ namespace dotNetAcademy.WEB.Controllers
         private readonly ICustomerService _customerService;
         private readonly IParticipantService _participantService;
         private readonly IMapper _mapper;
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
        // private readonly UserManager<CustomerDTO> _userManager;
 
-        public CustomersController(ICustomerService customerService,IParticipantService participantService,IMapper mapper/*, UserManager<CustomerDTO> userManager*/)
+        public CustomersController(ICustomerService customerService,IParticipantService participantService,IMapper mapper
+            ,IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _customerService = customerService;
             _participantService = participantService;
+            _httpContextAccessor = httpContextAccessor;
             //_userManager = userManager;
         }
 
         // GET: Customers
         public ActionResult Index()
         {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var viewmodel = new AllCustomersViewModel();
-            viewmodel.Customers = _customerService.GetAll();
-            viewmodel.Members = viewmodel.Customers.Sum(x=>x.MaxParticipants);
+            if (User.IsInRole("Administrator")) { 
+                viewmodel.Customers = _customerService.GetAll();
+            }
+            else if (User.IsInRole("Customer"))
+            {
+                return RedirectToAction("IndexFromCustomer", "Participants", new {@id = userId});
+            }
+            
+           
+
+            if (viewmodel.Customers.IsNullOrEmpty())
+            {
+                viewmodel.Members = 0;
+            }
+            else
+            {
+                viewmodel.Members = viewmodel.Customers.Sum(x => x.MaxParticipants);
+            }
+            
             return View(viewmodel);
         }
 
@@ -51,7 +75,6 @@ namespace dotNetAcademy.WEB.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-
             var participants = _customerService.GetAll().Sum(x => x.MaxParticipants);
             if (MaxAmount.IsReached(MaxAmount.MaxParticipantsInSystem,participants))
             {
@@ -65,7 +88,6 @@ namespace dotNetAcademy.WEB.Controllers
                 };
                 return RedirectToAction(nameof(Error));
             }
-           
         }
 
         // POST: Customers/Create
@@ -73,7 +95,9 @@ namespace dotNetAcademy.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Name,StreetAndNumber,City,Email,MaxParticipants")] CustomerDTO c)
         {
-            if (ModelState.IsValid)
+            var totalusers = c.MaxParticipants + _customerService.GetAll().Sum(x => x.MaxParticipants);
+
+            if (ModelState.IsValid || totalusers>MaxAmount.MaxParticipantsInSystem)
             {
                 _customerService.Add(c);
                 //_userManager.AddToRoleAsync(c, "Customer");
@@ -81,7 +105,6 @@ namespace dotNetAcademy.WEB.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View();
-            
         }
 
         // GET: Customers/Edit/5
@@ -136,5 +159,6 @@ namespace dotNetAcademy.WEB.Controllers
             viewmodel.Fout = message;
             return View(viewmodel);
         }
+     
     }
 }

@@ -6,6 +6,7 @@ using dotNetAcademy.BLL.Extensions;
 using dotNetAcademy.DAL.Context;
 using dotNetAcademy.DAL.Entities;
 using dotNetAcademy.DAL.Extensions;
+using dotNetAcademy.DAL.InitialData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,7 +46,10 @@ namespace dotNetAcademy.WEB
             services.AddAutoMapper();
             services.AddBllServices();
 
+
             //identity
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             ////users
             services.AddDefaultIdentity<Customer>()
                 .AddRoles<IdentityRole>()
@@ -62,14 +66,11 @@ namespace dotNetAcademy.WEB
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 5;
                 options.Password.RequiredUniqueChars = 0;
-
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 3;
                 options.Lockout.AllowedForNewUsers = true;
-
                 options.User.RequireUniqueEmail = true;
             });
-
 
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -102,13 +103,16 @@ namespace dotNetAcademy.WEB
 
             app.UseAuthentication();
 
+           
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            
+
+          
         }
 
 

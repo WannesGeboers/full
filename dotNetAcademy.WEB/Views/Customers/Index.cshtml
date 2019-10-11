@@ -9,46 +9,52 @@
 
 
 
+@if (User.IsInRole("Administrator"))
+{
+    <div><a id="register" asp-area="Identity" asp-page="/Account/RegisterCustomer"><i class="fas fa-plus"></i>New Customer</a></div>
+}
+@*<div><a asp-controller="Customers" asp-action="Create"><i class="fas fa-plus"></i>New Customer</a></div>*@
 
-<div><a asp-controller="Customers" asp-action="Create"><i class="fas fa-plus"></i>New Customer</a></div>
 
-
-    <ul class="list-group">
-        @foreach (var c in Model.Customers)
-        {
-            <li class="list-group-item"> 
-                <div class="row">
-                    <div class="col-2">
-                        <a asp-controller="Customers" asp-action="Delete" asp-route-id="@c.Id"><i class="fas fa-trash"></i></a>
-                        <a asp-controller="Customers" asp-action="Edit" asp-route-id="@c.Id"><i class="fas fa-pencil-alt"></i></a>
+<ul class="list-group">
+    @foreach (var c in Model.Customers)
+    {
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-2">
+                    <a asp-controller="Customers" asp-action="Delete" asp-route-id="@c.Id"><i class="fas fa-trash"></i></a>
+                    <a asp-controller="Customers" asp-action="Edit" asp-route-id="@c.Id"><i class="fas fa-pencil-alt"></i></a>
+                </div>
+                <div class="col-4">
+                    <div>
+                        <a asp-controller="Participants" asp-action="IndexFromCustomer" asp-route-id="@c.Id">
+                            <div class="card-content">
+                                <p>@c.Name</p>
+                            </div>
+                        </a>
                     </div>
-                    <div class="col-4">
-                        <div>
-                            <a asp-controller="Participants" asp-action="IndexFromCustomer" asp-route-id="@c.Id">
-                                <div class="card-content">
-                                    <p>@c.Name</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-1">
-                        <p>@c.Participants.Count() / @c.MaxParticipants</p>
-                    </div>
-                    @*@if (User.IsInRole("administrator"))
+                </div>
+                <div class="col-1">
+                    <p>@c.Participants.Count() / @c.MaxParticipants</p>
+                </div>
+                @*@if (User.IsInRole("administrator"))
                     {
                     <p>ADMIN</p>
                     }*@
-                </div> 
-                </li>
-        }
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-2"><h5>Total</h5>
-                </div>
-            <div class="col-4">
-            <h5>@Model.Customers.Count()</h5>
-            </div>
-            <div class="col-2"><h5>@Model.Members</h5>
             </div>
         </li>
-    </ul>
+    }
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-2">
+                <h5>Total</h5>
+            </div>
+            <div class="col-4">
+                <h5>@Model.Customers.Count()</h5>
+            </div>
+            <div class="col-2">
+                <h5>@Model.Members</h5>
+            </div>
+        </div>
+    </li>
+</ul>

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using dotNetAcademy.DAL.Entities;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,12 +19,16 @@ namespace dotNetAcademy.WEB.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<Customer> _signInManager;
+        private readonly UserManager<Customer> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginModel(SignInManager<Customer> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<Customer> signInManager, ILogger<LoginModel> logger,UserManager<Customer>userManager, IHttpContextAccessor httpContextAccessor)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [BindProperty]
@@ -73,12 +79,20 @@ namespace dotNetAcademy.WEB.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                  // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+             var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    //var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    //if (this.User.IsInRole("Customer"))
+                    //{
+                        
+                    //    return RedirectToAction("IndexForCustomer", "Participants", new { @id = userId });
+                    //}
+                    //else { 
+                    return RedirectToAction("Index", "Customers");
+                    //}
                 }
                 if (result.RequiresTwoFactor)
                 {

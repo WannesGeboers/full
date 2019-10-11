@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using dotNetAcademy.DAL.Context;
+using dotNetAcademy.DAL.Entities;
 using dotNetAcademy.DAL.InitialData;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -21,14 +23,20 @@ namespace dotNetAcademy.WEB
             
             using (var scope = host.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
+                var serviceProvider = scope.ServiceProvider;
                 try
                 {
-                    //var context = services.GetRequiredService<DotNetAcademyDbContext>();
-                    //if (!context.Customers.Any())
-                    //{
-                    //    DataInitializer.SeedDb(context);
-                    //}
+                    var dbContext = serviceProvider.GetRequiredService<DotNetAcademyDbContext>();
+
+                    var userManager = serviceProvider.
+                        GetRequiredService<UserManager<Customer>>();
+
+                    var roleManager = serviceProvider.
+                        GetRequiredService<RoleManager<IdentityRole>>();
+
+                    DataInitializer.SeedData
+                        (userManager, roleManager,dbContext);
+
                 }
                 catch (Exception e)
                 {

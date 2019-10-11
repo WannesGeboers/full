@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using dotNetAcademy.BLL.DTO;
@@ -11,6 +12,7 @@ using dotNetAcademy.WEB.ViewModels.Error;
 using dotNetAcademy.WEB.ViewModels.Participant;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 
 namespace dotNetAcademy.WEB.Controllers
 {
@@ -19,18 +21,26 @@ namespace dotNetAcademy.WEB.Controllers
         private readonly ICustomerService _customerService;
         private readonly IParticipantService _participantService;
         private readonly IMapper _mapper;
-
-        public ParticipantsController(ICustomerService customerService, IParticipantService participantService, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ParticipantsController(ICustomerService customerService, IParticipantService participantService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
             _customerService = customerService;
             _participantService = participantService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
         // GET: Participants
         public ActionResult Index()
         {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (User.IsInRole("Customer"))
+            {
+                return RedirectToAction("IndexFromCustomer", "Participants", new {@id = userId});
+            }
+
+            
             var viewmodel = new AllParticipantsViewModel();
             viewmodel.Participants = _participantService.GetAll();
             return View(viewmodel);
@@ -44,7 +54,6 @@ namespace dotNetAcademy.WEB.Controllers
             viewmodel.Participants = _participantService.GetAll()
                 .Where(x => x.Customer.Id==id)
                 .OrderBy(x=>x.StartDate);
-
             return View(viewmodel);
         }
 
@@ -64,19 +73,12 @@ namespace dotNetAcademy.WEB.Controllers
         public ActionResult CreateForCustomer(string id)
         {
             var customer = _customerService.GetById(id);
-
-            if (!MaxAmount.IsReached(customer.MaxParticipants, customer.Participants.Count()))
-            {
             var model = new ParticipantDTO();
-            model.Customer = _customerService.GetById(id);
-            return View(model);
-            }
-            else
+            if (MaxAmount.IsReached(customer.MaxParticipants, customer.Participants.Count()))
             {
-                var viewmodel = new FoutMeldingViewModel();
-                viewmodel.Fout = "U hebt het max aantal deelnemers bereikt.";
-                return View(viewmodel);
+            model.Customer = _customerService.GetById(id);
             }
+            return View(model);
         }
 
         // POST: Participants/CreateForCustomer
@@ -89,9 +91,14 @@ namespace dotNetAcademy.WEB.Controllers
                 p.Customer = _customerService.GetById(id);
                 if (ModelState.IsValid)
                 {
+                    if (DurationDotNetAcademy.IsLongEnough(p.StartDate, p.EndDate)) { 
+
                     _participantService.Add(p);
                     _participantService.Save();
                     return RedirectToAction("IndexFromCustomer","Participants",new {@id =id});
+                    }
+
+                    return RedirectToAction("CreateForCustomer", "Participants", new {@id = id});
                 }
 
                 return View();
@@ -123,6 +130,7 @@ namespace dotNetAcademy.WEB.Controllers
         public ActionResult Edit(string id)
         {
             var participant = _participantService.GetById(id);
+            participant.Customer = null;
             if (participant == null)
             {
                 return NotFound();

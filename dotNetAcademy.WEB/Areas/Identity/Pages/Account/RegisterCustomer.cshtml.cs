@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 namespace dotNetAcademy.WEB.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterModel : PageModel
+    public class RegisterModelCustomer : PageModel
     {
         private readonly SignInManager<Customer> _signInManager;
         private readonly UserManager<Customer> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public RegisterModelCustomer(
             UserManager<Customer> userManager,
             SignInManager<Customer> signInManager,
             ILogger<RegisterModel> logger,
@@ -68,8 +68,6 @@ namespace dotNetAcademy.WEB.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-            [Display(Name = "Role")]
-            public string Role { get; set; }
         }
         
 
@@ -87,18 +85,9 @@ namespace dotNetAcademy.WEB.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
 
-                if (Input.Role == "Customer")
-                {
+                //add to role
                     await _userManager.AddToRoleAsync(user, "Customer");
-                }
-                else if (Input.Role == "Participant")
-                {
-                    await _userManager.AddToRoleAsync(user, "Participant");
-                }
-                else if (Input.Role == "Administrator")
-                {
-                    await _userManager.AddToRoleAsync(user, "Administrator");
-                }
+               
 
                 if (result.Succeeded)
                 {

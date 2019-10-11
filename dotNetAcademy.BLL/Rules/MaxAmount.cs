@@ -13,7 +13,7 @@ namespace dotNetAcademy.BLL.Rules
 
         public static bool IsReached(int allowedNumber,int tryNumber)
         {
-            return allowedNumber < tryNumber;
+            return allowedNumber >= tryNumber;
         }
 
         public static void ChangeMaxParticipantsInSystemTo(int number)

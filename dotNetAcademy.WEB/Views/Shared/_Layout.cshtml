@@ -35,11 +35,11 @@
     <nav>
         <div class="navbar center navbar-light bg-light">
             <div class="navbar-brand"><img style="height: 2em;" src="content/img/icon.PNG" alt="logo" />DotNetAcademy</div>
-            @if (User.IsInRole("administrator"))
+            @if (User.IsInRole("Administrator"))
             {
                 <div>Admin-role</div>
             }
-            @if (User.IsInRole("customer"))
+            @if (User.IsInRole("Customer"))
             {
                 <div>Customer-role</div>
             }
@@ -57,15 +57,14 @@
             <nav id="sidebar">
                 <ul class="list-unstyled components">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Participants" asp-action="Index">Participants</a></li>
-                    
+                    @if (User.IsInRole("Customer") || (User.IsInRole("Administrator"))) { 
+                        <li><a asp-area="" asp-controller="Participants" asp-action="Index">Participants</a></li>
+                    }
+                    @if (User.IsInRole("Administrator")) { 
                         <li><a asp-area="" asp-controller="Customers" asp-action="Index">Customer</a></li>
-                       
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Settings</a></li>
-                        
+                        <li><a asp-area="" asp-controller="DefaultSettings" asp-action="Index">Settings</a></li>
+                    }
                 </ul>
-
-
             </nav>
         </div>
         <div class="col-10">

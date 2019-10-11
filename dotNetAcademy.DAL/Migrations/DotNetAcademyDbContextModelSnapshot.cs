@@ -41,6 +41,22 @@ namespace dotNetAcademy.DAL.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f6aee173-e7fb-43a2-89ff-9c95416a85d5",
+                            ConcurrencyStamp = "b183430a-338a-4352-a25c-2dc1564d9d29",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "dd621420-78ac-4031-9696-8ef275943ced",
+                            ConcurrencyStamp = "8958a06b-ee65-45ab-ade3-9a4aa7251cf0",
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -194,10 +210,10 @@ namespace dotNetAcademy.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "34b6c824-f800-45fd-b43f-ac962c2d4163",
+                            Id = "11cac6fb-81fe-45d3-854d-9ba4a66f19cb",
                             AccessFailedCount = 0,
                             City = "Westerlo",
-                            ConcurrencyStamp = "963c2b2a-c7d3-4891-b198-e99e9847870a",
+                            ConcurrencyStamp = "e673f2a0-b8e0-4be3-b621-cd32eea8907d",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             MaxParticipants = 10,
@@ -211,7 +227,7 @@ namespace dotNetAcademy.DAL.Migrations
                             Id = "df39664c-5a15-4063-900d-7a67e09c281e",
                             AccessFailedCount = 0,
                             City = "Westerlo",
-                            ConcurrencyStamp = "f81d4f42-5e96-44c3-860a-c2a70932c874",
+                            ConcurrencyStamp = "edd0a456-de33-48bf-8284-1c533f399076",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             MaxParticipants = 10,
@@ -225,7 +241,7 @@ namespace dotNetAcademy.DAL.Migrations
                             Id = "rf39664c-5a15-4063-900d-7a67e09c281d",
                             AccessFailedCount = 0,
                             City = "Edegem",
-                            ConcurrencyStamp = "147ae51d-9c9f-4858-ba1b-75dfe768faa8",
+                            ConcurrencyStamp = "2067bd6d-749a-4b58-8ddc-49680ebbf6d0",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             MaxParticipants = 10,
@@ -239,7 +255,7 @@ namespace dotNetAcademy.DAL.Migrations
                             Id = "df39664c-5a15-4063-900d-7a67e09c281d",
                             AccessFailedCount = 0,
                             City = "Westerlo",
-                            ConcurrencyStamp = "a8c28136-0d28-469d-8386-5ebc6fb266ff",
+                            ConcurrencyStamp = "17f723f8-a23f-4995-8fb8-ec7fde1048c7",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             MaxParticipants = 10,
@@ -287,7 +303,7 @@ namespace dotNetAcademy.DAL.Migrations
                         new
                         {
                             Id = "aa6799f7-28e1-473e-9293-7b64bca27a32",
-                            CustomerId = "df39664c-5a15-4063-900d-7a67e09c281d",
+                            CustomerId = "rf39664c-5a15-4063-900d-7a67e09c281d",
                             Email = "info@yari.be",
                             EndDate = new DateTime(2100, 12, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Yari",

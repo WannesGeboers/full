@@ -1,60 +1,56 @@
 ﻿@page
-@model RegisterModel
+@model RegisterModelCustomer
 @{
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>New Customer</h1>
 
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
+            <h4>Create Customer</h4>
+            <hr/>
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
+                <input asp-for="Input.Email" class="form-control"/>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
+                <input asp-for="Input.Password" class="form-control"/>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <input asp-for="Input.ConfirmPassword" class="form-control"/>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+        
             <div class="form-group">
                 <label asp-for="Input.Name"></label>
-                <input asp-for="Input.Name" class="form-control" />
+                <input asp-for="Input.Name" class="form-control"/>
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.StreetAndNumber"></label>
-                <input asp-for="Input.StreetAndNumber" class="form-control" />
+                <input asp-for="Input.StreetAndNumber" class="form-control"/>
                 <span asp-validation-for="Input.StreetAndNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.City"></label>
-                <input asp-for="Input.City" class="form-control" />
+                <input asp-for="Input.City" class="form-control"/>
                 <span asp-validation-for="Input.City" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Input.MaxParticipants"></label>
-                <input type="number" asp-for="Input.MaxParticipants" class="form-control" />
+                <input type="number" asp-for="Input.MaxParticipants" class="form-control"/>
                 <span asp-validation-for="Input.MaxParticipants" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="radio" name="Input.Role" value="Customer" asp-for="Input.Role" class="form-control"> Customer<br>
-                <input type="radio" name="Input.Role" value="Participant" asp-for="Input.Role" class="form-control" checked> Participant<br>
-                <input type="radio" name="Input.Role" value="Administrator" asp-for="Input.Role" class="form-control"> Administrator
-            </div>
-
             <button type="submit" class="btn btn-primary">Register</button>
+        
         </form>
     </div>
 </div>

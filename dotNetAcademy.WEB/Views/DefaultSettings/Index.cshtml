@@ -1,0 +1,14 @@
+﻿@model dotNetAcademy.WEB.ViewModels.DefaultSettings.SettingsViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<form asp-action="Update">
+<label asp-for="TotalSystemUsers" class="control-label"></label>
+<input readonly asp-for="TotalSystemUsers" class="form-control" />
+<span asp-validation-for="TotalSystemUsers" class="text-danger"></span>
+@*<input type="submit" value="Create" class="btn btn-primary" />*@
+</form>

@@ -14,7 +14,6 @@ namespace dotNetAcademy.DAL.Context
 
         public DotNetAcademyDbContext(DbContextOptions options) : base(options)
         {
-            
         }
 
         public DbSet<Customer> Customers { get; set; }
@@ -55,10 +54,6 @@ namespace dotNetAcademy.DAL.Context
                         CustomerId = "rf39664c-5a15-4063-900d-7a67e09c281d"
                     }
                 );
-
-            //modelBuilder.Entity<Participant>(
-            //        new Participant { FirstName = "Ive", LastName = "Verstappen", Email = "info@ive.be", StartDate = DateTime.Parse("2000-04-01"), EndDate = DateTime.Parse("2019-10-30"),Customer = new Customer()}
-            //);
         }
     }
 
